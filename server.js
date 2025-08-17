@@ -10,17 +10,23 @@ connectDB();
 
 const app = express();
 
-// ✅ Allow ALL CORS
+// ✅ CORS middleware - allow all origins, support credentials
 app.use(
   cors({
-    origin: "*",
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, Postman)
+      if (!origin) return callback(null, true);
+
+      // Echo back the requesting origin (dynamic)
+      return callback(null, origin);
+    },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: false, // set to true only if you really need cookies
+    credentials: true, // ✅ allow cookies / Authorization headers
   })
 );
 
-// Handle preflight requests for all routes
+// Explicitly handle preflight
 app.options("*", cors());
 
 app.use(express.json());
