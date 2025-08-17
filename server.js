@@ -10,34 +10,18 @@ connectDB();
 
 const app = express();
 
-// Allowed origins
-const allowedOrigins = [
-  "https://almaspay.io",
-  "https://www.almaspay.io",
-  "http://localhost:5173"
-];
-
-// Middleware
+// ✅ Allow ALL CORS
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps, curl, Postman)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        // In dev mode allow everything
-        if (process.env.NODE_ENV !== "production") {
-          callback(null, true);
-        } else {
-          callback(new Error("Not allowed by CORS"));
-        }
-      }
-    },
-    credentials: true, // if you use cookies/auth headers
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: false, // set to true only if you really need cookies
   })
 );
+
+// Handle preflight requests for all routes
+app.options("*", cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
