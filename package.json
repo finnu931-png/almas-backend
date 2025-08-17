@@ -4,11 +4,9 @@
   "description": "AlmasPay Backend Server",
   "main": "server.js",
   "scripts": {
-    "preinstall": "npx rimraf node_modules/bcrypt",
-    "install": "npm install bcryptjs --save && npm rebuild bcrypt --build-from-source --update-binary",
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "render-setup": "npm install -g node-gyp@latest && npm install"
+    "render-build": "npm install --omit=dev && npm cache clean --force"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.3",
@@ -29,8 +27,7 @@
     "mongoose": "^8.17.1",
     "nodemailer": "^7.0.5",
     "openai": "^4.63.0",
-    "pino": "^9.5.0",
-    "rimraf": "^5.0.5"
+    "pino": "^9.5.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
