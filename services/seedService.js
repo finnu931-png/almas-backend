@@ -4,6 +4,10 @@ const CaseStudy = require('../models/CaseStudy');
 const ContactSubmission = require('../models/ContactSubmission');
 const Testimonial = require('../models/Testimonial');
 const HomepageSection = require('../models/HomepageSection');
+const Logo = require('../models/Logo');
+const { seedServiceCategories } = require('./serviceCategorySeedService')
+const { seedTeamMembers } = require('./teamMemberSeedService');
+const { seedFormFields } = require('./formFieldSeedService');
 const { hashPassword } = require('../utils/password');
 
 class SeedService {
@@ -46,14 +50,26 @@ class SeedService {
     try {
       console.log('SeedService: Starting to seed sample data...');
 
+      // Seed Service Categories first
+      console.log('SeedService: Seeding service categories...');
+      await seedServiceCategories();
+      
+      // Seed Team Members
+      console.log('SeedService: Seeding team members...');
+      await seedTeamMembers();
+      
+      // Seed Form Fields
+      console.log('SeedService: Seeding form fields...');
+      await seedFormFields();
+
       // Seed Services
       console.log('SeedService: Seeding services...');
       const services = [
         {
           title: 'Payment Processing',
-          description: 'Fast and secure payment processing for trading companies',
+          description: 'Fast and secure payment processing for trading',
           icon: 'credit-card',
-          category: 'Payment Processing',
+          category: 'Payments & Custody',
           features: ['Real-time processing', 'Multi-currency support', 'Fraud protection'],
           pricing: 'From 0.5%',
           status: 'published'
@@ -68,11 +84,11 @@ class SeedService {
           status: 'published'
         },
         {
-          title: 'Compliance & KYC',
-          description: 'Automated compliance checks and KYC verification',
-          icon: 'shield-check',
-          category: 'Compliance',
-          features: ['Automated KYC', 'AML screening', 'Regulatory reporting'],
+          title: 'API Integration',
+          description: 'Seamless integration with your existing systems',
+          icon: 'link',
+          category: 'Integration',
+          features: ['RESTful APIs', 'Webhook support', 'SDK libraries'],
           pricing: 'Contact for pricing',
           status: 'published'
         }
@@ -154,15 +170,21 @@ class SeedService {
           sectionType: 'hero',
           isActive: true,
           metadata: {
-            subtitle: 'Middle East & Asia',
+            // subtitle: 'Middle East & Asia',
             ctaPrimary: 'Get Started',
             ctaSecondary: 'Watch Demo'
           }
         },
         {
-          title: 'Why Choose Almas Pay?',
+          title: 'Why Choose',
           content: 'Comprehensive payment solutions built specifically for trading companies operating across Middle East and Asia.',
           sectionType: 'features',
+          isActive: true
+        },
+        {
+          title: 'Our Team',
+          content: 'Almas pay is led by a strong and diverse team with proven track records in both traditional finance and emerging financial technologies. Collectively, we bring experience from leading global banks, capital markets institutions, and fintech innovators, ensuring a deep understanding of how money and value move across borders.',
+          sectionType: 'team-expertise',
           isActive: true
         }
       ];
@@ -174,6 +196,82 @@ class SeedService {
         if (!existingSection) {
           await HomepageSection.create(sectionData);
           console.log('SeedService: Created homepage section:', sectionData.sectionType);
+        }
+      }
+
+      // Seed Sample Logos
+      console.log('SeedService: Seeding sample logos...');
+      const sampleLogos = [
+        {
+          name: 'Almas Pay Main Logo',
+          description: 'Primary logo for website header and main branding',
+          imageUrl: 'https://via.placeholder.com/200x60/1e40af/ffffff?text=ALMAS+PAY',
+          thumbnailUrl: 'https://via.placeholder.com/100x30/1e40af/ffffff?text=ALMAS+PAY',
+          category: 'main',
+          isDefault: true,
+          isActive: true,
+          altText: 'Almas Pay Logo',
+          tags: ['main', 'header', 'primary'],
+          size: { width: 200, height: 60 }
+        },
+        {
+          name: 'Almas Pay Footer Logo',
+          description: 'Logo for website footer',
+          imageUrl: 'https://via.placeholder.com/150x45/374151/ffffff?text=ALMAS+PAY',
+          thumbnailUrl: 'https://via.placeholder.com/75x22/374151/ffffff?text=ALMAS+PAY',
+          category: 'footer',
+          isDefault: true,
+          isActive: true,
+          altText: 'Almas Pay Footer Logo',
+          tags: ['footer', 'secondary'],
+          size: { width: 150, height: 45 }
+        },
+        {
+          name: 'Almas Pay Favicon',
+          description: 'Small icon for browser tabs',
+          imageUrl: 'https://via.placeholder.com/32x32/1e40af/ffffff?text=AP',
+          thumbnailUrl: 'https://via.placeholder.com/16x16/1e40af/ffffff?text=AP',
+          category: 'favicon',
+          isDefault: true,
+          isActive: true,
+          altText: 'Almas Pay Favicon',
+          tags: ['favicon', 'icon'],
+          size: { width: 32, height: 32 }
+        },
+        {
+          name: 'Almas Pay Admin Logo',
+          description: 'Logo for admin panel',
+          imageUrl: 'https://via.placeholder.com/180x54/7c3aed/ffffff?text=ALMAS+PAY+ADMIN',
+          thumbnailUrl: 'https://via.placeholder.com/90x27/7c3aed/ffffff?text=ADMIN',
+          category: 'admin',
+          isDefault: true,
+          isActive: true,
+          altText: 'Almas Pay Admin Logo',
+          tags: ['admin', 'dashboard'],
+          size: { width: 180, height: 54 }
+        },
+        {
+          name: 'Almas Pay Alternative Logo',
+          description: 'Alternative logo design option',
+          imageUrl: 'https://via.placeholder.com/200x60/059669/ffffff?text=ALMAS+PAY+ALT',
+          thumbnailUrl: 'https://via.placeholder.com/100x30/059669/ffffff?text=ALT',
+          category: 'main',
+          isDefault: false,
+          isActive: true,
+          altText: 'Almas Pay Alternative Logo',
+          tags: ['alternative', 'option'],
+          size: { width: 200, height: 60 }
+        }
+      ];
+
+      for (const logoData of sampleLogos) {
+        const existingLogo = await Logo.findOne({ 
+          name: logoData.name,
+          category: logoData.category
+        });
+        if (!existingLogo) {
+          await Logo.create(logoData);
+          console.log('SeedService: Created logo:', logoData.name);
         }
       }
 

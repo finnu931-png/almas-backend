@@ -19,6 +19,15 @@ router.post('/', async (req, res) => {
       });
     }
 
+    // Map urgency values to valid enum values
+    let mappedUrgency = urgency || 'medium';
+    let priority = 'normal';
+    
+    if (urgency === 'urgent') {
+      mappedUrgency = 'high';
+      priority = 'urgent';
+    }
+
     const contactData = {
       name,
       email,
@@ -26,10 +35,10 @@ router.post('/', async (req, res) => {
       message,
       phone: phone || '',
       subject: subject || 'General Inquiry',
-      urgency: urgency || 'medium',
+      urgency: mappedUrgency,
       preferredContact: preferredContact || 'email',
       status: 'new',
-      priority: 'normal'
+      priority: priority
     };
 
     const submission = await ContactService.create(contactData);

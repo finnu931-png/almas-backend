@@ -37,12 +37,16 @@ app.use("/", require("./routes/index"));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/services", require("./routes/serviceRoutes"));
+app.use("/api/service-categories", require("./routes/serviceCategoryRoutes"))
+app.use("/api/team-members", require("./routes/teamMemberRoutes"));
+app.use("/api/form-fields", require("./routes/formFieldRoutes"));
 app.use("/api/work", require("./routes/caseStudyRoutes"));
 app.use("/api/contact", require("./routes/contactRoutes"));
 app.use("/api/analytics", require("./routes/analyticsRoutes"));
 app.use("/api/seed", require("./routes/seedRoutes"));
 app.use("/api/homepage-sections", require("./routes/homepageSectionRoutes"));
 app.use("/api/testimonials", require("./routes/testimonialRoutes"));
+app.use("/api/logos", require("./routes/logoRoutes"));
 
 const PORT = process.env.PORT || 3000;
 

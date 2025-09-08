@@ -13,7 +13,7 @@ const homepageSectionSchema = new mongoose.Schema({
   sectionType: {
     type: String,
     required: true,
-    enum: ['hero', 'features', 'about', 'services', 'testimonials', 'cta', 'custom']
+    enum: ['hero', 'features', 'about', 'services', 'testimonials', 'cta', 'team-expertise', 'custom']
   },
   order: {
     type: Number,

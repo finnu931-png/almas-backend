@@ -51,7 +51,7 @@ class SeedService {
       const services = [
         {
           title: 'Payment Processing',
-          description: 'Fast and secure payment processing for trading companies',
+          description: 'Fast and secure payment processing for trading',
           icon: 'credit-card',
           category: 'Payment Processing',
           features: ['Real-time processing', 'Multi-currency support', 'Fraud protection'],
@@ -154,15 +154,21 @@ class SeedService {
           sectionType: 'hero',
           isActive: true,
           metadata: {
-            subtitle: 'Middle East & Asia',
+            // subtitle: 'Middle East & Asia',
             ctaPrimary: 'Get Started',
             ctaSecondary: 'Watch Demo'
           }
         },
         {
-          title: 'Why Choose Almas Pay?',
+          title: 'Why Choose',
           content: 'Comprehensive payment solutions built specifically for trading companies operating across Middle East and Asia.',
           sectionType: 'features',
+          isActive: true
+        },
+        {
+          title: 'Our Team',
+          content: 'Almas pay is led by a strong and diverse team with proven track records in both traditional finance and emerging financial technologies. Collectively, we bring experience from leading global banks, capital markets institutions, and fintech innovators, ensuring a deep understanding of how money and value move across borders.',
+          sectionType: 'team-expertise',
           isActive: true
         }
       ];
