@@ -11,16 +11,17 @@ connectDB();
 
 const app = express();
 
-// ✅ CORS middleware - allow all origins, support credentials
+// ✅ CORS middleware - allow specific origins
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, Postman)
-      if (!origin) return callback(null, true);
-
-      // Echo back the requesting origin (dynamic)
-      return callback(null, origin);
-    },
+    origin: [
+      'https://almaspay.io',
+      'https://www.almaspay.io', 
+      'http://localhost:3000',
+      'http://localhost:5173',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:5173'
+    ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // ✅ allow cookies / Authorization headers
