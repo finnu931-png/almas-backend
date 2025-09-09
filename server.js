@@ -3,6 +3,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const { connectDB } = require("./config/database");
 
 // Connect to database
@@ -47,6 +48,19 @@ app.use("/api/seed", require("./routes/seedRoutes"));
 app.use("/api/homepage-sections", require("./routes/homepageSectionRoutes"));
 app.use("/api/testimonials", require("./routes/testimonialRoutes"));
 app.use("/api/logos", require("./routes/logoRoutes"));
+
+// Serve static files from the client dist directory
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+// Handle client-side routing - send all non-API requests to index.html
+app.get('*', (req, res) => {
+  // Don't serve index.html for API routes
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'API endpoint not found' });
+  }
+  
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
 
 const PORT = process.env.PORT || 3000;
 
